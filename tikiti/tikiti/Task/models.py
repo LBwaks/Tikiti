@@ -2,7 +2,7 @@ from django.db import models
 from tikiti.users.models import User
 import uuid
 from django.utils.translation import gettext_lazy as _
-from django.urls import reverse
+from django.urls import reverse,reverse_lazy
 from tikiti.Profile.models import Assignees
 # Create your models here.
 
@@ -38,8 +38,8 @@ class Source(models.Model):
     update_date = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = 'Sector'
-        verbose_name_plural = 'Sector'
+        verbose_name = 'Source'
+        verbose_name_plural = 'Source'
 
     def __str__(self):
         return self.source_name
@@ -60,7 +60,7 @@ class Support(models.Model):
         verbose_name_plural = 'Support'
 
     def __str__(self):
-        return self.support_name
+        return self.support_type
     
 # status
 
@@ -78,7 +78,7 @@ class Status(models.Model):
         verbose_name_plural = 'Status'
 
     def __str__(self):
-        return self.status_name
+        return self.status
 # issue
 
 
@@ -129,12 +129,12 @@ class Task(models.Model):
     title = models.CharField(_('Title'), max_length=100)
     description = models.TextField(_('Description'), max_length=40)
     support_type = models.ForeignKey(Support, verbose_name=_('Type of Support'), on_delete=models.CASCADE, blank=True, null=True)
-    status = models.ForeignKey(Status, verbose_name=_('Status'), on_delete=models.CASCADE)
+    status = models.ForeignKey(Status, verbose_name=_('Status'), on_delete=models.CASCADE,default=2)
     priority = models.ForeignKey(Priority, verbose_name=_('Priority'), on_delete=models.CASCADE)
-    start_date = models.DateTimeField(_("Start Time"))
-    end_date = models.DateTimeField(_("End Time"))
+    start_date = models.DateTimeField(_("Start Time"), blank=True, null=True)
+    end_date = models.DateTimeField(_("End Time"), blank=True, null=True)
     assigned_to = models.ForeignKey(Assignees, related_name='task_assignee', verbose_name=_('Assigned To'), on_delete=models.CASCADE,default=1)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE,default=1,verbose_name='Created BY')
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Created BY')
     create_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
 
@@ -146,7 +146,7 @@ class Task(models.Model):
         return self.title
     
     def get_absolute_url(self):
-        return reverse('task-details', kwargs={'slug': self.slug})
+        return reverse_lazy('Task:task-details', kwargs={'slug': self.slug})
 
     
 

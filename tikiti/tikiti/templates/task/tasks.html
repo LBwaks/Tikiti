@@ -1,0 +1,6 @@
+{% for task in object_list%}
+<p>  {{task.title}}</p>
+<p> <a href="{{task.get_absolute_url}}">{{task.sector}}</a></p>
+<p>{{task.create_date}}</p>
+------------------------------
+{% endfor%}

@@ -79,6 +79,7 @@ THIRD_PARTY_APPS = [
     "allauth.mfa",
     "allauth.socialaccount",
     "django_celery_beat",
+    # "ckeditor",
 ]
 
 LOCAL_APPS = [
@@ -324,3 +325,7 @@ SOCIALACCOUNT_FORMS = {"signup": "tikiti.users.forms.UserSocialSignupForm"}
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+# ck editor 
+CKEDITOR_BASEPATH = "/static/ckeditor/"
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_UPLOAD_PATH = "uploads/"

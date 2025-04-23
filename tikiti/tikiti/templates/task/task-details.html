@@ -1,0 +1,8 @@
+<p>  {{task.title}}</p>
+<p> <a href="{% url 'Task:delete' task.slug %}">Delete</a></p>
+<p><a href="{% url 'Task:edit' task.slug %}">Edit </a></p>
+<p>{{task.create_date}}</p>change-status
+<p>{{task.status}}</p>
+<p><a href="{% url 'Task:change-status' task.slug %}">change-status </a></p>
+<p>{{task.assigned_to}}</p>
+<p><a href="{% url 'Task:change-assignee' task.slug %}">change-assignee</a></p>

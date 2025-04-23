@@ -1,7 +1,4 @@
 from django.contrib import admin
-
-# Register your models here.
-from django.contrib import admin
 from tikiti.Task.models import Sector, Source, Support, Status, Issue, Priority, Task, TaskHistory, TaskFiles,TaskComment#,Assignee
 # Register your models here.
 
@@ -46,7 +43,7 @@ class SupportAdmin(admin.ModelAdmin):
 
 @admin.register(Status)
 class StatusAdmin(admin.ModelAdmin):
-    list_display = ('status', 'description')
+    list_display = ('id', 'status', 'description')
     readonly_fields = ('slug', 'user')
     
     def save_model(self, request, obj, form, change):
@@ -83,8 +80,8 @@ class PriorityAdmin(admin.ModelAdmin):
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ('sector', 'source','issue_type',
-                    'customer_id','title','description','support_type',
+    list_display = ('sector', 'slug', 'source','issue_type',
+                    'customer_id','title', 'support_type',
                    'status' ,'priority','start_date','end_date',
                    'assigned_to')
     # readonly_fields = ('slug', 'user')

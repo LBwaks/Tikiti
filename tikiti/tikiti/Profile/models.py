@@ -12,7 +12,7 @@ class Assignees(models.Model):
     update_date = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = 'Assignee'
+        verbose_name = 'Assignees'
     
     def __str__(self):
         return f"{self.assignee.username}"
