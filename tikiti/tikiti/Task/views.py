@@ -75,7 +75,7 @@ class UpdateTaskStatusView(LoginRequiredMixin, UpdateView):
     form_class = UpdateTaskStatusForm
     template_name = 'task/update-status.html'
     success_message = "Task Status Changed"
-    success_url = "/"
+    #success_url = "/"
     
 
 class UpdateTaskAssigneeView(LoginRequiredMixin, UpdateView):
