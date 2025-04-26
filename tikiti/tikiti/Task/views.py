@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import TaskForm, UpdateTaskForm, UpdateTaskStatusForm, UpdateTaskAssigneeForm
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
+from django.contrib import messages
 # Create your views here.
 
 
@@ -33,7 +34,8 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         #task = self.get_object()
-        # context['task'] = task
+        context['status_form'] = UpdateTaskStatusForm(instance=self.object)
+        context['assignee_form'] = UpdateTaskAssigneeForm(instance=self.object)
         return context
 
 
@@ -66,8 +68,15 @@ class UpdateTaskView(LoginRequiredMixin, UpdateView):
         task.save()
         files = self.request.FILES.getlist('files')
         for file in files:
-            TaskFiles.objects.create(task=task, file=file)        
+            TaskFiles.objects.create(task=task, file=file)   
+        # messages.success(self.request("Task Update Successfully"))     
         return super(UpdateTaskView, self).form_valid(form)
+    
+    # def form_invalid(self, form):
+    #     messages.error(self.request("Task Update Unsuccessfull"))
+    #     return super(UpdateTaskView, self).form_invalid(form)
+        
+    
     
 
 class UpdateTaskStatusView(LoginRequiredMixin, UpdateView):

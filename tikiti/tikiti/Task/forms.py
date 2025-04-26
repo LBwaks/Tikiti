@@ -72,7 +72,7 @@ class UpdateTaskForm(forms.ModelForm):
         cleaned_data = super().clean()
         customer_id = cleaned_data.get("customer_id")
         title = cleaned_data.get("title")
-        description = cleaned_data("description")
+        description = cleaned_data.get("description")
 
         if isinstance(customer_id, str) and 0 < len(customer_id) < 5:
             raise ValidationError(_("Customer Id must be greater than 10 Characters"), code="invalid_customer_id")

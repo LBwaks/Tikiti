@@ -127,7 +127,7 @@ class Task(models.Model):
     issue_type = models.ForeignKey(Issue, verbose_name=_("Issue Type"), on_delete=models.CASCADE)
     customer_id = models.CharField(_('Customer No'), max_length=40)
     title = models.CharField(_('Title'), max_length=100)
-    description = models.TextField(_('Description'), max_length=40)
+    description = models.TextField(_('Description'))
     support_type = models.ForeignKey(Support, verbose_name=_('Support Type'), on_delete=models.CASCADE, blank=True, null=True)
     status = models.ForeignKey(Status, verbose_name=_('Status'), on_delete=models.CASCADE,default=2)
     priority = models.ForeignKey(Priority, verbose_name=_('Priority'), on_delete=models.CASCADE)
@@ -135,6 +135,7 @@ class Task(models.Model):
     end_date = models.DateTimeField(_("End Date"), blank=True, null=True)
     assigned_to = models.ForeignKey(Assignees, related_name='task_assignee', verbose_name=_('Assignee'), on_delete=models.CASCADE,default=1)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Created By')
+    updated_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_update_task', verbose_name='Update User', blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
 
@@ -153,7 +154,7 @@ class Task(models.Model):
 # task files
 
 class TaskFiles(models.Model):
-    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, related_name="task_files", on_delete=models.CASCADE)
     file = models.FileField(_('Attachments'), upload_to='tasks/attachement')    
     create_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
