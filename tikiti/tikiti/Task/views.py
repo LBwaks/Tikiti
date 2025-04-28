@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from tikiti.Task.models import Task, Sector, Source, Support, Status, Issue, Priority, TaskHistory, TaskFiles,TaskComment#,Assignee
+from tikiti.Profile.models import Assignees
 from django.views.generic import ListView,DetailView,CreateView,DeleteView,UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
@@ -7,6 +8,7 @@ from .forms import TaskForm, UpdateTaskForm, UpdateTaskStatusForm, UpdateTaskAss
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.db.models import Count
 # Create your views here.
 
 
@@ -14,6 +16,8 @@ class TaskListView(LoginRequiredMixin, ListView):
     model = Task
     template_name = "task/tasks.html"
     login_url = ""
+    context_object_name = 'tasks'
+    paginate_by = 20 
 
     def get_queryset(self):
         queryset = Task.objects.select_related().defer()
@@ -22,7 +26,13 @@ class TaskListView(LoginRequiredMixin, ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context[""] = ""
+        context["task_sectors"] = Sector.objects.annotate(sector_count=Count('task_sector')).prefetch_related("task_sector")
+        context['task_prioritys'] = Priority.objects.annotate(priority_count=Count("task_priority")).prefetch_related("task_priority")
+        context['task_statuses'] = Status.objects.annotate(status_count=Count("task_status")).prefetch_related("task_status")
+        context['task_issues'] = Issue.objects.annotate(issue_count=Count("task_issue")).prefetch_related("task_issue")
+        context['task_assigness'] = Assignees.objects.annotate(assignee_count=Count("task_assignee")).prefetch_related("task_assignee")
+        context['statuses'] = Status.objects.all()
+        context['priorities'] = Priority.objects.all()
         return context
     
 

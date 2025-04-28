@@ -86,6 +86,7 @@ LOCAL_APPS = [
     "tikiti.users",
     "tikiti.Task",
     "tikiti.Profile",
+    "tikiti.Pages"
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
