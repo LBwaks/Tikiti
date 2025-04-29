@@ -21,7 +21,7 @@ urlpatterns = [
     # Your stuff: custom urls includes go here
     path("task/", include('tikiti.Task.urls')),
     path("", include("tikiti.Pages.urls")),
-   # path('ckeditor/', include('ckeditor_uploader.urls')),
+    # path('ckeditor/', include('ckeditor_uploader.urls')),
     # ...
     # Media files
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),

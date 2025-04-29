@@ -17,7 +17,7 @@ class TaskListView(LoginRequiredMixin, ListView):
     template_name = "task/tasks.html"
     login_url = ""
     context_object_name = 'tasks'
-    paginate_by = 20 
+    paginate_by = 2 
 
     def get_queryset(self):
         queryset = Task.objects.select_related().defer()
