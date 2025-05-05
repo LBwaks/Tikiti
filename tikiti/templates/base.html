@@ -1,0 +1,156 @@
+
+{% load static i18n %}<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE }}">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>
+      {% block title %}
+      Tikiti
+    {% endblock title %}
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"        content="Task MAnagment" />
+  <meta name="author"        content="Lucas Obwaku" />
+  <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}" />
+  {% block css %}
+    <!-- Latest compiled and minified Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+<!-- Your stuff: Third-party CSS libraries go here -->
+
+    <!-- Choise Css -->
+    <link rel="stylesheet" href="{% static 'libs/choices/styles/choices.min.css'%}">
+    <!-- Swiper Css -->
+    <link rel="stylesheet" href="{% static 'libs/swiper/swiper-bundle.min.css'%}">
+    <!-- Bootstrap Css -->
+    <link href="{% static 'css/bootstrap-blue.min.css'%}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="{% static 'css/icons.min.css'%}" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    {% comment %} <link href="{% static 'css/app-blue.min.css'%}" id="app-style" rel="stylesheet" type="text/css" /> {% endcomment %}
+    <link href="{% static 'css/app-blue.css'%}" id="app-style" rel="stylesheet" type="text/css" />
+<!-- This file stores project-specific CSS -->
+
+  
+  {% comment %} <link href="{% static 'css/project.css' %}" rel="stylesheet" /> {% endcomment %}
+<style>
+  label.required::after {
+    content: ' *' !important;
+    color: red;
+}
+</style>
+
+{% endblock css %}
+
+</head>
+<body class="">
+  {% block loader %}
+       <!--start page Loader -->
+       {% comment %} <div id="preloader">
+        <div id="status">
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+              </ul>
+        </div>
+    </div> {% endcomment %}
+    <!--end page Loader -->
+  {% endblock%}
+  <!-- Begin page -->
+  <div>
+
+  {%block header %}
+  {% include 'includes/header.html' %}
+  {% endblock%}
+  
+  {% block body %}
+  <div class="main-content">
+ 
+  
+    {% comment %} ------------- alert  {% endcomment %}
+    {% comment %} {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-dismissible {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+          {{ message }}
+          <button type="button"
+                  class="btn-close"
+                  data-bs-dismiss="alert"
+                  aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %} {% endcomment %}
+    {% comment %} ----------------end of alert  {% endcomment %}
+
+    {% comment %} ----------------------body {% endcomment %}
+    {% block main %}
+      {% block content %}
+       
+      {% endblock content %}
+    {% endblock main %}
+
+  
+  {% endblock body %}
+  <!-- /container -->
+  {% block modal %}
+  {% endblock modal %}
+
+  {% comment %} -------------------footer  {% endcomment %}
+
+  {%block footer %}
+  {% include 'includes/footer.html'%}
+  {% endblock%}
+
+    <!--start back-to-top-->
+    <button onclick="topFunction()" id="back-to-top">
+      <i class="mdi mdi-arrow-up"></i>
+  </button>
+  <!--end back-to-top-->
+</div>
+<!-- end main content-->
+</div>
+<!-- END layout-wrapper -->
+
+  {% block javascript %}
+<!-- Bootstrap JS -->
+
+<!-- Your stuff: Third-party javascript libraries go here -->
+    <!-- JAVASCRIPT -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    {% comment %} <script src="{% static 'iconscout/v4.0.0/script/monochrome/bundle.js'%}"></script> {% endcomment %}
+    <!-- Choice Js -->
+    <script src="{% static 'libs/choices/scripts/choices.min.js'%}"></script>
+    <!-- Swiper Js -->
+    <script src="{% static 'libs/swiper/swiper-bundle.min.js' %}"></script>
+    <!-- Job-list Init Js -->
+    <script src="{% static 'js/pages/job-list.init.js' %}"></script>
+    <!-- Switcher Js -->
+    <script src="{% static 'js/pages/switcher.init.js' %}"></script>
+    <script src="{% static 'js/pages/index.init.js' %} "></script>
+    <script src="{% static 'js/app.js' %}"></script>
+
+<!-- place project specific Javascript in this file -->
+
+  
+  {% comment %} <script defer src="{% static 'js/project.js' %}"></script> {% endcomment %}
+
+
+{% endblock javascript %}
+  {% block inline_javascript %}
+    {% comment %}
+    Script tags with only code, no src (defer by default). To run
+    with a "defer" so that you run inline code:
+    <script>
+      window.addEventListener('DOMContentLoaded', () => {
+        /* Run whatever you want */
+      });
+    </script>
+    {% endcomment %}
+  {% endblock inline_javascript %}
+  
+</body>
+</html>

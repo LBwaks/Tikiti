@@ -1,0 +1,248 @@
+{% extends 'base.html'%}
+{% block title%}Task {% endblock%}
+{%load static%}
+{% load default_tags %}
+{%block content %}
+<div class="page-content">
+
+    <!-- Start home -->
+    <section class="page-title-box">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="text-center text-white">
+                        <h3 class="mb-4">Job List 2</h3>
+                        <div class="page-next">
+                            <nav class="d-inline-block" aria-label="breadcrumb text-center">
+                                <ol class="breadcrumb justify-content-center">
+                                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="javascript:void(0)">Pages</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page"> Job List 2 sse </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <!--end col-->
+            </div>
+            <!--end row-->
+        </div>
+        <!--end container-->
+    </section>
+    <!-- end home -->
+
+    <!-- START SHAPE -->
+    <div class="position-relative" style="z-index: 1">
+        <div class="shape">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 250">
+                <path fill="#FFFFFF" fill-opacity="1"
+                    d="M0,192L120,202.7C240,213,480,235,720,234.7C960,235,1200,213,1320,202.7L1440,192L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z"></path>
+            </svg>
+        </div>
+    </div>
+    <!-- END SHAPE -->
+
+
+    <!-- START JOB-LIST -->
+    <section class="section">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-10">
+                    <div class="me-lg-5">
+                        <div class="job-list-header">
+                            <form  method="get" action="{% url 'Pages:search' %}">
+                                <div class="row g-2">
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="filler-job-form">
+                                            <i class="uil uil-briefcase-alt"></i>
+                                            <input type="search" class="form-control filter-job-input-box" id="exampleFormControlInput1" placeholder="Title" name="title">
+                                        </div>
+                                    </div><!--end col-->
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="filler-job-form">
+                                            <i class="uil uil-location-point"></i>
+                                            <select class="form-select" data-trigger name="priority" id="choices-single-location" aria-label="Default select example">
+                                                {% for priority in priorities%}
+                                                <option value="{{priority.pk}}">{{priority.priority_type}}</option>  
+                                                {% endfor %}                                              
+                                                
+                                            </select>
+                                        </div>
+                                    </div><!--end col-->
+                                    
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="filler-job-form">
+                                            <i class="uil uil-clipboard-notes"></i>
+                                            
+                                            <select class="form-select " data-trigger name="status" id="choices-single-categories" aria-label="Default select example">
+                                                
+                                                {% for status in statuses %}
+                                                <option value="{{status.pk}}">{{status.status}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div><!--end col-->
+                                    <div class="col-lg-3 col-md-6">
+                                        <button type="submit" id="submit" name="submit" class="btn btn-primary w-100"><i class="uil uil-filter"></i> Fliter</button>
+                                    </div><!--end col-->
+                                </div><!--end row-->
+                            </form>
+                        </div><!--end job-list-header-->
+                        {% comment %} <div class="wedget-popular-title mt-4">
+                            <h6>Popular</h6>
+                            <ul class="list-inline">
+                                <li class="list-inline-item">
+                                    <div class="popular-box d-flex align-items-center">
+                                        <div class="number flex-shrink-0 me-2">
+                                            20  
+                                        </div>
+                                        <a href="javascript:void(0)" class="primary-link stretched-link"><h6 class="fs-14 mb-0">UI/UX designer</h6></a>
+                                    </div>
+                                </li>
+                                <li class="list-inline-item">
+                                    <div class="popular-box d-flex align-items-center">
+                                        <div class="number flex-shrink-0 me-2">
+                                            18  
+                                        </div>
+                                        <a href="javascript:void(0)" class="primary-link stretched-link"><h6 class="fs-14 mb-0">HR manager</h6></a>
+                                    </div>
+                                </li>
+                                <li class="list-inline-item">
+                                    <div class="popular-box d-flex align-items-center">
+                                        <div class="number flex-shrink-0 me-2">
+                                            10  
+                                        </div>
+                                        <a href="javascript:void(0)" class="primary-link stretched-link"><h6 class="fs-14 mb-0">Product manager</h6></a>
+                                    </div>
+                                </li>
+                                <li class="list-inline-item">
+                                    <div class="popular-box d-flex align-items-center">
+                                        <div class="number flex-shrink-0 me-2">
+                                            15  
+                                        </div>
+                                        <a href="javascript:void(0)" class="primary-link stretched-link"><h6 class="fs-14 mb-0">Sales manager</h6></a>
+                                    </div>
+                                </li>
+                                <li class="list-inline-item">
+                                    <div class="popular-box d-flex align-items-center">
+                                        <div class="number flex-shrink-0 me-2">
+                                            28  
+                                        </div>
+                                        <a href="javascript:void(0)" class="primary-link stretched-link"><h6 class="fs-14 mb-0">Developer</h6></a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div><!--end wedget-popular-title--> {% endcomment %}
+    
+                        <!-- Job-list -->
+                        <div>
+                                         
+                            {% for task in results %}
+                            <div class="job-box card mt-4">
+                                <div class="p-4">
+                                    <div class="row">                                        
+                                        <div class="col-lg-11">
+                                            <div class="mt-3 mt-lg-0">
+                                                <h5 class="fs-17 mb-1"><a href="{{task.get_absolute_url}}" class="text-dark">{{task.title}}</a> </h5>
+                                                <ul class="list-inline mb-0">
+                                                    <li class="list-inline-item">
+                                                        <p class="text-muted fs-14 mb-0">Created: {{task.create_date}}</p>
+                                                    </li>
+                                                    <li class="list-inline-item">
+                                                        <p class="text-muted fs-14 mb-0">{{task.assigned_to}}</p>
+                                                    </li>
+                                                    <li class="list-inline-item">
+                                                        <p class="text-muted fs-14 mb-0"><i class="mdi mdi-map-marker"></i> {{task.sector}}</p>
+                                                    </li>
+                                                    <li class="list-inline-item">
+                                                        <p class="text-muted fs-14 mb-0"><i class="uil uil-wallet"></i> {{task.issue_type}}</p>
+                                                    </li>
+                                                    <li class="list-inline-item">
+                                                        <p class="text-muted fs-14 mb-0"><i class="uil uil-wallet"></i> <span class="badge bg-soft-danger mt-1">{{task.status}}</span></p>
+                                                    </li>
+                                                </ul>
+                                                
+                                            </div>
+                                        </div><!--end col-->
+                                    </div><!--end row-->
+                                   
+                                </div>
+                               
+                            </div>
+                            <!--end job-box-->  
+                            {% endfor%}
+    
+    
+                        </div>
+                        <!-- End Job-list -->
+    
+                        <div class="row">
+                            <div class="col-lg-12 mt-4 pt-2">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination job-pagination mb-0 justify-content-center">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="javascript:void(0)" tabindex="-1">
+                                                <i class="mdi mdi-chevron-double-left fs-15"></i>
+                                            </a>
+                                        </li>
+                                        <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+                                        <li class="page-item"><a class="page-link" href="javascript:void(0)">4</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="javascript:void(0)">
+                                                <i class="mdi mdi-chevron-double-right fs-15"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div><!--end col-->
+                        </div><!-- end row -->
+                    </div>
+
+                </div>
+                
+            </div>
+        </div>
+    </section>
+    <!-- END JOB-LIST -->
+
+    <!-- START APPLY MODAL -->
+    <div class="modal fade" id="applyNow" tabindex="-1" aria-labelledby="applyNow" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body p-5">
+                    <div class="text-center mb-4">
+                        <h5 class="modal-title" id="staticBackdropLabel">Apply For This Job</h5>
+                    </div>
+                    <div class="position-absolute end-0 top-0 p-3">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nameControlInput" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="nameControlInput" placeholder="Enter your name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="emailControlInput2" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="emailControlInput2" placeholder="Enter your email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="messageControlTextarea" class="form-label">Message</label>
+                        <textarea class="form-control" id="messageControlTextarea" rows="4" placeholder="Enter your message"></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label" for="inputGroupFile01">Resume Upload</label>
+                        <input type="file" class="form-control" id="inputGroupFile01">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Send Application</button>
+                </div>
+            </div>
+        </div>
+    </div><!-- END APPLY MODAL -->
+
+</div>
+<!-- End Page-content -->
+{% endblock%}
+
+

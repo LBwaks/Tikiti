@@ -1,0 +1,49 @@
+{% extends "account/base_entrance.html" %}
+{% load i18n %}
+{% load allauth %}
+{% block head_title %}
+    {% trans "Verify Your Email Address" %}
+{% endblock head_title %}
+{% block content %}
+<div>
+
+            
+    <div class="main-content">
+
+        <div class="page-content">
+
+            <!-- START RESET-PASSWORD -->
+            <section class="bg-auth">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-10 col-lg-12">
+                            <div class="card auth-box">
+                                <div class="row g-0">
+                                    
+                                    <div class="col-lg-12">
+                                        <div class="auth-content card-body p-5 h-100 text-white">
+                                            <div class="text-center mb-4">
+                                                <h5>Verify Your Email Address</h5>
+                                                <p class="text-white-50">We have sent an email to you for verification. Follow the link provided to finalize the signup process. If you do not see the verification email in your main inbox, check your spam folder. Please contact us if you do not receive the verification email within a few minutes.</p>
+                                            </div>
+                                           
+                                        </div>
+                                    </div><!--end col-->
+                                </div><!--end row-->
+                            </div><!--end auth-box-->
+                        </div><!--end col-->
+                    </div><!--end row-->
+                </div><!--end container-->
+            </section>
+            <!-- END RESET-PASSWORD -->
+            
+        </div>
+        <!-- End Page-content -->
+
+    </div>
+    <!-- end main content-->
+
+</div>
+    
+
+{% endblock content %}
