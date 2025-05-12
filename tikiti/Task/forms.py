@@ -111,5 +111,5 @@ class UpdateTaskAssigneeForm(forms.ModelForm):
 class COmmentTaskForm(forms.ModelForm):
     class Meta:
         model = TaskComment
-        fields = ('comment',)
+        fields = ('comment', 'task')
         widgets = {"comment": forms.Textarea(attrs={"class": "form-control", "required": "True"})}
