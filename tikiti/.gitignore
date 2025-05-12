@@ -276,3 +276,6 @@ tikiti/media/
 .env
 .envs/*
 !.envs/.local/
+.django 
+.production 
+.postgres 
