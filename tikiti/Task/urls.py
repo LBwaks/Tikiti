@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import Test, TaskListView, TaskDetailView, CreateTaskView, DeleteTaskView,TaskAssigneeView, TaskIssueView,TaskPriorityView, UpdateTaskView, TaskStatusView,UpdateTaskStatusView, UpdateTaskAssigneeView,TaskSectorView
+from .views import Test, TaskListView, TaskDetailView, CreateTaskView, MyTaskView, DeleteTaskView,TaskAssigneeView, TaskIssueView,TaskPriorityView, UpdateTaskView, TaskStatusView,UpdateTaskStatusView, UpdateTaskAssigneeView,TaskSectorView
 
 app_name = 'Task'
 
@@ -16,6 +16,7 @@ urlpatterns = [
     path('priority/<slug>', TaskPriorityView.as_view(), name='task-priority'),
     path('issue/<slug>', TaskIssueView.as_view(), name='task-issue'),
     path('assignee/<pk>', TaskAssigneeView.as_view(), name='task-assignee'),
+    path('my-task/<username>', MyTaskView.as_view(), name='my-task')
     
 ]
 

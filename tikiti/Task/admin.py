@@ -80,7 +80,7 @@ class PriorityAdmin(admin.ModelAdmin):
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ('sector', 'slug', 'source','issue_type',
+    list_display = ('ticket','sector', 'slug', 'source','issue_type',
                     'customer_id','title', 'support_type',
                    'status' ,'priority','start_date','end_date',
                    'assigned_to')

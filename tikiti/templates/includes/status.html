@@ -1,0 +1,19 @@
+{% if task.status.status == 'New' %}
+                                                            
+<span class="badge bg-secondary mt-1">{{task.status}}</span>
+
+{% elif task.status.status  == "Analysis"  %}
+<span class="badge bg-primary mt-1">{{task.status}}</span>
+
+{% elif task.status.status  == "Working On It"  %}
+<span class="badge bg-info mt-1">{{task.status}}</span>
+
+{% elif task.status.status  == "Deliver"  %}
+<span class="badge bg-success mt-1">{{task.status}}</span>
+
+{% elif task.status.status == "Closed"  %}
+<span class="badge bg-success mt-1">{{task.status}}</span>
+
+{% elif task.status.status  == "Reopened"  %}
+<span class="badge bg-dark mt-1">{{task.status}}</span>
+{% endif %}

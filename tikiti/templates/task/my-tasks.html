@@ -1,29 +1,67 @@
 {% extends 'base.html'%}
-{% block title%}Task {% endblock%}
+{% block title%}My Tasks {% endblock%}
 {%load static%}
 {% load default_tags %}
 {%block content %}
 <div class="page-content">
 
     <!-- Start home -->
-    <section class="page-title-box">       
-    </section>
+    <section class="page-title-box">
+        
+            <!--end row-->
+    
+        <!--end container-->
+        
+    </section> 
+    
+   
     <!-- end home -->
 
-   
-
-
-    <!-- START JOB-LIST -->
-    <section class="section min-vh-100">
-        <div class="container">
+        <!-- START JOB-LIST -->
+    <div class="section min-vh-100">
+        <div class="container ">
             <div class="row">
-
-                <div class="col-lg-10">
+                <div class="col-lg-12">
                     <div class="me-lg-5">  
                         <div class="wedget-popular-title mt-4 ">
-                            <h6><span class="fs-16 text-muted"> {{priority.priority_type}} Tasks </span></h6>
-                           
-                        </div><!--end wedget-popular-title-->                     
+                            <h6><span class="fs-16 text-muted"> {{assigned_user}}'s Tasks </span></h6>
+                            <ul class="list-inline shadow p-3 mb-5 bg-body-tertiary rounded">                           
+                                {% for status_count in task_status_count%}                             
+                                
+                                <li class="list-inline-item">
+                                    <div class="popular-box d-flex align-items-center">
+                                        <div class="number flex-shrink-0 me-2">
+                                            {{status_count.count}}  
+                                        </div>
+                                        <a href="javascript:void(0)" class="primary-link stretched-link"><h6 class="fs-16 mb-0">
+                                            {% comment %} <span class="badge bg-dark mt-1">{{status_count.status__status}}<span> {% endcomment %}
+
+                                                {% if status_count.status__status == 'New' %}
+                                                            
+                                                <span class="badge bg-secondary mt-1 fs-16 ">{{status_count.status__status}}</span>
+                                                
+                                                {% elif status_count.status__status  == "Analysis"  %}
+                                                <span class="badge bg-primary mt-1 fs-16 ">{{status_count.status__status}}</span>
+                                                
+                                                {% elif status_count.status__status  == "Working On It"  %}
+                                                <span class="badge bg-dark mt-1 fs-16 ">{{status_count.status__status}}</span>
+                                                
+                                                {% elif status_count.status__status  == "Deliver"  %}
+                                                <span class="badge bg-success mt-1 fs-16 ">{{status_count.status__status}}</span>
+                                                
+                                                {% elif status_count.status__status == "Closed"  %}
+                                                <span class="badge bg-success mt-1 fs-16 ">{{status_count.status__status}}</span>
+                                                
+                                                {% elif status_count.status__status  == "Reopened"  %}
+                                                <span class="badge bg-warning mt-1 fs-16 ">{{status_count.status__status}}</span>
+                                                {% endif %}
+
+                                            </h6></a>
+                                    </div>
+                                </li>
+                                {% endfor%}
+                            </ul>
+                        </div><!--end wedget-popular-title-->                    
                         
                         <div>                                         
                             {% for task in tasks %}
@@ -47,18 +85,18 @@
                                                         <p class="text-muted fs-14 mb-0"><i class="uil uil-wallet"></i> {{task.issue_type}}</p>
                                                     </li>
                                                     <li class="list-inline-item">
-                                                        <p class="text-muted fs-14 mb-0"><i class="uil uil-wallet"></i> {% include 'includes/status.html' %}</p>
+                                                        <p class="text-muted fs-16 mb-0"><i class="uil uil-wallet"></i> {% include 'includes/status.html' %}</p>
                                                     </li>
                                                 </ul>
                                                 
                                             </div>
+                                            
                                         </div><!--end col-->
                                     </div><!--end row-->
                                    
                                 </div>
                                
                             </div>
-                            <!--end job-box-->  
                             {% empty %}
                             <div class="job-box card mt-4 shadow-lg p-3 mb-5 bg-body rounded">
                                 <div class="p-4">
@@ -74,6 +112,7 @@
                                 </div>
                                
                             </div>
+                            <!--end job-box-->  
                             {% endfor%}
     
     
@@ -122,7 +161,7 @@
                                 </nav>
                             </div><!--end col-->
                         </div><!-- end row -->
-                        {%endif %}
+                        {% endif %}
                     </div>
 
                 </div>

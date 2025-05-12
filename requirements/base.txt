@@ -18,3 +18,5 @@ django-crispy-forms==2.3  # https://github.com/django-crispy-forms/django-crispy
 crispy-bootstrap5==2025.4  # https://github.com/django-crispy-forms/crispy-bootstrap5
 django-redis==5.4.0  # https://github.com/jazzband/django-redis
 django-ckeditor==6.7.2
+django-storages[s3]==1.14.6  # https://github.com/jschneier/django-storages
+django-anymail[brevo]==13.0  # https://github.com/anymail/django-anymail

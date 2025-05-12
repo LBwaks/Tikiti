@@ -9,6 +9,9 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.db.models import Count
+from django.utils.text import slugify
+from django.http import Http404
+from tikiti.users.models import User
 # Create your views here.
 
 
@@ -17,10 +20,10 @@ class TaskListView(LoginRequiredMixin, ListView):
     template_name = "task/tasks.html"
     login_url = ""
     context_object_name = 'tasks'
-    paginate_by = 2 
+    paginate_by = 20 
 
     def get_queryset(self):
-        queryset = Task.objects.select_related().defer()
+        queryset = Task.objects.select_related().defer().order_by("-create_date")
         return queryset
     # more info
     
@@ -144,12 +147,12 @@ class TaskSectorView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         self.sector = get_object_or_404(Sector, slug=self.kwargs.get('slug'))
         return super().get_queryset().filter(sector=self.sector).select_related('sector', 'source', 
-                                                        'issue_type', 'assigned_to')    
+                                                        'issue_type', 'assigned_to').order_by("-create_date")    
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     # context[""] = 
-    #     return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["sector"] = self.sector 
+        return context
 
     
 class TaskStatusView(LoginRequiredMixin, ListView):
@@ -161,7 +164,12 @@ class TaskStatusView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         self.status = get_object_or_404(Status, slug=self.kwargs.get('slug'))
         return super().get_queryset().filter(status=self.status).select_related('sector', 'source', 
-                                                        'issue_type', 'assigned_to')   
+                                                        'issue_type', 'assigned_to').order_by("-create_date")  
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['status'] = self.status
+        return context
+    
     
 
 class TaskPriorityView(LoginRequiredMixin, ListView):
@@ -173,7 +181,12 @@ class TaskPriorityView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         self.priority = get_object_or_404(Priority, slug=self.kwargs.get('slug'))
         return super().get_queryset().filter(priority=self.priority).select_related('sector', 'source', 
-                                                        'issue_type', 'assigned_to')  
+                                                        'issue_type', 'assigned_to').order_by("-create_date")  
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["priority"] = self.priority
+        return context
+    
     
 
 class TaskIssueView(LoginRequiredMixin, ListView):
@@ -185,7 +198,12 @@ class TaskIssueView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         self.issue_type = get_object_or_404(Issue, slug=self.kwargs.get('slug'))
         return super().get_queryset().filter(issue_type=self.issue_type).select_related('sector', 'source', 
-                                                        'issue_type', 'assigned_to')  
+                                                        'issue_type', 'assigned_to').order_by("-create_date") 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["issue_type"] = self.issue_type
+        return context
+    
 
 
 class TaskAssigneeView(LoginRequiredMixin, ListView):
@@ -197,7 +215,42 @@ class TaskAssigneeView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         self.assignee_to = get_object_or_404(Assignees, id=self.kwargs.get('pk'))
         return super().get_queryset().filter(assigned_to=self.assignee_to).select_related('sector', 'source', 
-                                                        'issue_type', 'assigned_to')  
+                                                        'issue_type', 'assigned_to').order_by("-create_date")  
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["assigned_to"] = self.assignee_to
+        context['task_status_count'] = Task.objects.filter(assigned_to=self.assignee_to).select_related('task_assignee', 'task_status').values("assigned_to__assignee").annotate(count=Count('id'))
+        return context
+    
+    
+
+class MyTaskView(LoginRequiredMixin, ListView):
+    model = Task
+    template_name = 'task/my-tasks.html'
+    paginate_by = 20
+    context_object_name = 'tasks'
+
+    def get_assigned_user(self):
+        username = slugify(self.kwargs.get("username", '').strip())
+        try:
+            user = User.objects.get(username=username)
+            assigned_user = Assignees.objects.select_related("assignee").get(assignee=user)
+            return assigned_user
+        
+        except User.DoesNotExist:
+            raise Http404("User not found")
+
+    def get_queryset(self):
+        self.assigned_user = self.get_assigned_user()
+        queryset = Task.objects.filter(assigned_to=self.assigned_user).select_related('assigned_to').order_by("-create_date")
+        return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["assigned_user"] = self.assigned_user
+        context['task_status_count'] = Task.objects.filter(assigned_to=self.assigned_user).select_related('assigned_to').values("status__status").annotate(count=Count("id")).order_by("status")
+        return context
+    
 
 @login_required
 def Test(request):    

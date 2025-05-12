@@ -4,10 +4,12 @@ from django.views.generic import ListView, TemplateView
 from .forms import TaskSearchForm
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
-class HomeTemplateVIew(TemplateView):
+class HomeTemplateVIew(LoginRequiredMixin, TemplateView):
     template_name = 'pages/home.html'
     model = Task
 
@@ -16,11 +18,10 @@ class HomeTemplateVIew(TemplateView):
         context["statuses"] = Status.objects.all()
         context['priorities'] = Priority.objects.all()
         return context
-    
 
 
 
-class TaskSearchView(ListView):
+class TaskSearchView(LoginRequiredMixin, ListView):
     model = Task
     template_name = 'pages/search.html'
     # context_object_name = 'results'

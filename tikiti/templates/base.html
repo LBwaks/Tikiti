@@ -87,11 +87,15 @@
     {% comment %} ----------------end of alert  {% endcomment %}
 
     {% comment %} ----------------------body {% endcomment %}
+    <div class="min-vh-100">
     {% block main %}
       {% block content %}
+      
+      
        
       {% endblock content %}
     {% endblock main %}
+  </div>
 
   
   {% endblock body %}

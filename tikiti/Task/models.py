@@ -121,12 +121,13 @@ class Priority(models.Model):
 
 
 class Task(models.Model):
-    sector = models.ForeignKey(Sector, related_name='task_sector', verbose_name =_('Sector'), on_delete= models.CASCADE)    
+    sector = models.ForeignKey(Sector, related_name='task_sector', verbose_name =_('Sector'), on_delete= models.CASCADE) 
+    ticket = models.CharField(editable=False, blank=True, max_length=100)   
     slug = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
     source = models.ForeignKey(Source, related_name="task_source", verbose_name=_('Lead'),  on_delete=models.CASCADE)
     issue_type = models.ForeignKey(Issue, related_name="task_issue", verbose_name=_("Issue Type"), on_delete=models.CASCADE)
     customer_id = models.CharField(_('Customer No'), max_length=40)
-    title = models.CharField(_('Title'), max_length=100)
+    title = models.CharField(_('Title'), max_length=1000)
     description = models.TextField(_('Description'))
     support_type = models.ForeignKey(Support, related_name="task_support_type", verbose_name=_('Support Type'), on_delete=models.CASCADE, blank=True, null=True)
     status = models.ForeignKey(Status, related_name="task_status", verbose_name=_('Status'), on_delete=models.CASCADE,default=2)

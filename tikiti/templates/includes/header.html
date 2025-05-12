@@ -170,7 +170,7 @@
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userdropdown">
                                  
                                 {% if request.user.is_authenticated %} 
-                                <li><a class="dropdown-item" href="manage-jobs.html">My Tasks</a></li>                              
+                                <li><a class="dropdown-item" href="{% url 'Task:my-task' request.user.username %}">My Tasks</a></li>                              
                                 <li><a class="dropdown-item" href="{% url 'users:detail' request.user.username %}">My Profile</a></li>
                                 <li><a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a></li>
                                 {% else %}

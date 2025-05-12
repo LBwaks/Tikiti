@@ -26,6 +26,12 @@ def create_task_history(sender, instance, **kwargs):
             current_assignee=instance.assigned_to
         )
 
+@receiver(post_save, sender=Task)
+def create_ticket(sender, instance, created, **kwargs):
+    if created and not instance.ticket:
+        sector = instance.sector.sector_name.upper()[:5]
+        instance.ticket = f"{sector}-{instance.id}"
+        Task.objects.filter(pk=instance.pk).update(ticket=instance.ticket)
 
 # @receiver(post_save, sender=Task)
 # def notify_assignee_on_assignment(sender, instance, created, **kwargs):
