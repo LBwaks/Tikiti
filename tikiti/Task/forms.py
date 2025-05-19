@@ -1,6 +1,6 @@
 from django import forms
 from ckeditor.widgets import CKEditorWidget
-from .models import Task,TaskComment
+from .models import Task,TaskComment,TaskMaterial
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext as _
 
@@ -113,3 +113,35 @@ class COmmentTaskForm(forms.ModelForm):
         model = TaskComment
         fields = ('comment',)
         widgets = {"comment": forms.Textarea(attrs={"class": "form-control", "required": "True"})}
+
+
+class TaskMaterialForm(forms.ModelForm):
+    class Meta:
+        model = TaskMaterial
+        fields = ['router', 'rj45', 'outdoor_cable', 'indoor_cable', 'cat6_indoor_cable',
+                 'patchcode_apc', 'patchcode_upc', 'loaded_atb', 'empty_atb', 'splitter_8', 
+                 'splitter_4', 'splitter_2', 'splitter_16', 'router', 'fat_4', 'fat_8', 'router_charger',
+                 'poe', 'sleeves']
+        
+        def clean(self):
+            cleaned_data = super().clean()            
+            router = cleaned_data.get("router")         
+            
+            if isinstance(router, str) and 0 < len(router) < 5:
+                raise ValidationError(_("Title must be greater than 10 Characters"), code="invalid_customer_id")
+            
+
+class TaskMaterialEditForm(forms.ModelForm):
+    class Meta:
+        model = TaskMaterial
+        fields = ['router', 'rj45', 'outdoor_cable', 'indoor_cable', 'cat6_indoor_cable',
+                 'patchcode_apc', 'patchcode_upc', 'loaded_atb', 'empty_atb', 'splitter_8', 
+                 'splitter_4', 'splitter_2', 'splitter_16', 'router', 'fat_4', 'fat_8', 'router_charger',
+                 'poe', 'sleeves']
+        
+        def clean(self):
+            cleaned_data = super().clean()            
+            router = cleaned_data.get("router")         
+            
+            if isinstance(router, str) and 0 < len(router) < 5:
+                raise ValidationError(_("Title must be greater than 10 Characters"), code="invalid_customer_id")

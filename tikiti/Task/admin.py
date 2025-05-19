@@ -1,5 +1,5 @@
 from django.contrib import admin
-from tikiti.Task.models import Sector, Source, Support, Status, Issue, Priority, Task, TaskHistory, TaskFiles,TaskComment#,Assignee
+from tikiti.Task.models import Sector, Source, Support, Status, Issue, Priority, Task, TaskMaterial,TaskHistory, TaskFiles,TaskComment#,Assignee
 # Register your models here.
 
 
@@ -138,4 +138,8 @@ class TaskComments(admin.ModelAdmin):
 #     list_display = ('task', 'previous_status', 'current_status', 'previous_assignee', 'current_assignee','create_date', 'update_date')
 #     readonly_fields = ('task', 'previous_status', 'current_status', 'previous_assignee', 'current_assignee','create_date', 'update_date')
 
-    
+# @admin.register(TaskMaterial)
+# class TaskMAterial(admin.ModelAdmin):
+#     list_display ='all'
+
+admin.site.register(TaskMaterial)

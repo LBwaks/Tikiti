@@ -1,135 +1,10 @@
-{% comment %} {%load static %}
-<div class="mb-1">
-    <nav class="navbar navbar-expand-md navbar-light bg-light">
-      <div class="container-fluid">
-        <button class="navbar-toggler navbar-toggler-right"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent"
-                aria-expanded="false"
-                aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <a class="navbar-brand" href="{% url 'home' %}">Tikiti</a>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="{% url 'home' %}">Home <span class="visually-hidden">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'about' %}">About</a>
-            </li>
-            {% if request.user.is_authenticated %}
-              <li class="nav-item">
-                <a class="nav-link"
-                   href="{% url 'users:detail' request.user.username %}">{% translate "My Profile" %}</a>
-              </li>
-              <li class="nav-item">
-                {# URL provided by django-allauth/account/urls.py #}
-                <a class="nav-link" href="{% url 'account_logout' %}">{% translate "Sign Out" %}</a>
-              </li>
-            {% else %}
-              {% if ACCOUNT_ALLOW_REGISTRATION %}
-                <li class="nav-item">
-                  {# URL provided by django-allauth/account/urls.py #}
-                  <a id="sign-up-link" class="nav-link" href="{% url 'account_signup' %}">{% translate "Sign Up" %}</a>
-                </li>
-              {% endif %}
-              <li class="nav-item">
-                {# URL provided by django-allauth/account/urls.py #}
-                <a id="log-in-link" class="nav-link" href="{% url 'account_login' %}">{% translate "Sign In" %}</a>
-              </li>
-            {% endif %}
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </div> {% endcomment %}
+{%load static %}
 
-          
-            <!-- START TOP-BAR -->
-            {% comment %} <div class="top-bar">
-                <div class="container-fluid custom-container">
-                    <div class="row g-0 align-items-center">
-                        <div class="col-md-7">
-                            <ul class="list-inline mb-0 text-center text-md-start">
-                                <li class="list-inline-item">
-                                    <p class="fs-13 mb-0"> <i class="mdi mdi-map-marker"></i> Your Location: <a href="javascript:void(0)" class="text-dark">New Caledonia</a></p>
-                                </li>
-                                <li class="list-inline-item">
-                                    <ul class="topbar-social-menu list-inline mb-0">
-                                        <li class="list-inline-item"><a href="javascript:void(0)" class="social-link"><i
-                                                    class="uil uil-whatsapp"></i></a></li>
-                                        <li class="list-inline-item"><a href="javascript:void(0)" class="social-link"><i
-                                                    class="uil uil-facebook-messenger-alt"></i></a></li>
-                                        <li class="list-inline-item"><a href="javascript:void(0)" class="social-link"><i
-                                                    class="uil uil-instagram"></i></a></li>
-                                        <li class="list-inline-item"><a href="javascript:void(0)" class="social-link"><i
-                                                    class="uil uil-envelope"></i></a></li>
-                                        <li class="list-inline-item"><a href="javascript:void(0)" class="social-link"><i
-                                                    class="uil uil-twitter-alt"></i></a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                        <!--end col-->
-                        <div class="col-md-5">
-                            <ul class="list-inline mb-0 text-center text-md-end">
-                                <li class="list-inline-item py-2 me-2 align-middle">
-                                    <a href="#signupModal" class="text-dark fw-medium fs-13" data-bs-toggle="modal"><i class="uil uil-lock"></i>
-                                        Sign Up</a>
-                                </li>
-                                <li class="list-inline-item align-middle">
-                                    <div class="dropdown d-inline-block language-switch">
-                                        <button type="button" class="btn" data-bs-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                            <img id="header-lang-img" src="assets/images/flags/us.jpg" alt="Header Language" height="16" />
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <!-- item-->
-                                            <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="eng">
-                                                <img src="assets/images/flags/us.jpg" alt="user-image" class="me-1" height="12" />
-                                                <span class="align-middle">English</span>
-                                            </a>
-                                            <!-- item-->
-                                            <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="sp">
-                                                <img src="assets/images/flags/spain.jpg" alt="user-image" class="me-1" height="12" />
-                                                <span class="align-middle">Spanish</span>
-                                            </a>
-                                            <!-- item-->
-                                            <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="gr">
-                                                <img src="assets/images/flags/germany.jpg" alt="user-image" class="me-1" height="12" />
-                                                <span class="align-middle">German</span>
-                                            </a>
-                                            <!-- item-->
-                                            <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="it">
-                                                <img src="assets/images/flags/italy.jpg" alt="user-image" class="me-1" height="12" />
-                                                <span class="align-middle">Italian</span>
-                                            </a>
-                                            <!-- item-->
-                                            <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="ru">
-                                                <img src="assets/images/flags/russia.jpg" alt="user-image" class="me-1" height="12" />
-                                                <span class="align-middle">Russian</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <!--end col-->
-                    </div>
-                    <!--end row-->
-                </div>
-                <!--end container-->
-            </div> {% endcomment %}
-            <!-- END TOP-BAR -->
-               <!--Navbar Start-->
             <nav class="navbar navbar-expand-lg fixed-top sticky" id="navbar">
                 <div class="container-fluid custom-container">
-                    <a class="navbar-brand text-dark fw-bold me-auto" href="index.html">
-                        <img src="assets/images/logo-dark.png" height="22" alt="" class="logo-dark" />
-                        <img src="assets/images/logo-light.png" height="22" alt="" class="logo-light" />
+                    <a class="navbar-brand text-dark fw-bold me-auto" href="{% url 'Pages:home' %}">
+                        <img src="{% static 'images/logo/logo.png'%}" height="22" alt="I_Task" class="logo-dark" />
+                        <img src="{% static 'images/logo/logo.png'%}" height="22" alt="I_Task" class="logo-light" />
                     </a>
                     <div>
                         <button class="navbar-toggler me-3" type="button" data-bs-toggle="collapse"
@@ -147,11 +22,8 @@
                             </li>
                             <li class="nav-item">
                                 <a href="{% url 'Task:create' %}" class="nav-link">Create</a>
-                            </li>
+                            </li>                            
                             
-                            <li class="nav-item">
-                                <a href="contact.html" class="nav-link">Contact</a>
-                            </li>
                         </ul><!--end navbar-nav-->
                     </div>
                     <!--end navabar-collapse-->

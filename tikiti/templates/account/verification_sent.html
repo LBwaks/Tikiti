@@ -1,7 +1,8 @@
 {% extends "account/base_manage.html" %}
-{% load allauth i18n %}
+{% load i18n %}
+{% load allauth %}
 {% block head_title %}
-    {% trans "Sign Out" %}
+    {% trans "Verify Your Email Address" %}
 {% endblock head_title %}
 {% block content %}
 
@@ -23,23 +24,13 @@
                                     <div class="col-lg-12">
                                         <div class="auth-content card-body p-5 h-100 text-white">
                                             <div class="text-center mb-4">
-                                                <h5>Sign Out</h5>
-                                                <p class="text-white-50">Are you sure you want to sign out?</p>
+                                                <h5>Verify Your Email Address</h5>
+                                                <p class="text-white-50">We have sent an email to you for verification. Follow the link provided to finalize the signup process. 
+                                                    If you do not see the verification email in your main inbox, check your spam folder. Please contact us if you do not receive 
+                                                    the verification email within a few minutes.
+                                                </p>
                                             </div>
-                                            {% url 'account_logout' as action_url %}
-                                            {% element form method="post" action=action_url no_visible_fields=True atrrs="class:auth-form" %}
-                                                {% slot body %}
-                                                    {% csrf_token %}
-                                                    {{ redirect_field }}
-                                                {% endslot %}
-                                                {% slot actions %}
-                                                <div class="mt-5 text-center text-white-50">
-                                                    {% element button type="submit" %}
-                                                        {% trans 'Sign Out' %}
-                                                    {% endelement %}
-                                                </div>
-                                                {% endslot %}
-                                            {% endelement %}
+                                            
 
                                             
                                                 

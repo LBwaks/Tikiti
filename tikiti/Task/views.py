@@ -1,10 +1,10 @@
 from django.shortcuts import render,get_object_or_404,redirect
-from tikiti.Task.models import Task, Sector, Source, Support, Status, Issue, Priority, TaskHistory, TaskFiles,TaskComment#,Assignee
+from tikiti.Task.models import Task, Sector, Source, Support, Status, Issue, Priority, TaskHistory, TaskFiles,TaskMaterial,TaskComment#,Assignee
 from tikiti.Profile.models import Assignees
 from django.views.generic import ListView,DetailView,CreateView,DeleteView,UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-from .forms import TaskForm, UpdateTaskForm, UpdateTaskStatusForm, UpdateTaskAssigneeForm,COmmentTaskForm
+from .forms import TaskForm, UpdateTaskForm, UpdateTaskStatusForm, UpdateTaskAssigneeForm,COmmentTaskForm,TaskMaterialForm,TaskMaterialEditForm
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.contrib import messages
@@ -51,6 +51,7 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
         context['assignee_form'] = UpdateTaskAssigneeForm(instance=self.object)
         context['comments'] = self.object.comments.all().order_by('-create_date')
         context['comment_form'] = COmmentTaskForm()
+        context['materials'] = TaskMaterial.objects.filter(task=self.object)
         return context
     
     def post(self,request,*args, **kwargs):
@@ -74,7 +75,7 @@ class CreateTaskView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     form_class = TaskForm
     template_name = 'task/create-task.html'
     success_message = "Task Created Successfully"
-    success_url = "/"
+    # success_url = "/"
     
     def form_valid(self, form):
         task = form.save(commit=False)
@@ -250,6 +251,48 @@ class MyTaskView(LoginRequiredMixin, ListView):
         context["assigned_user"] = self.assigned_user
         context['task_status_count'] = Task.objects.filter(assigned_to=self.assigned_user).select_related('assigned_to').values("status__status").annotate(count=Count("id")).order_by("status")
         return context
+    
+
+class AddTaskMaterial(LoginRequiredMixin, CreateView):
+    model = TaskMaterial
+    form_class = TaskMaterialForm
+    template_name = 'task/add-materials.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.task = get_object_or_404(Task, slug=self.kwargs.get('slug'))
+        return super().dispatch(request, *args, **kwargs)
+   
+    def form_valid(self, form):
+
+        material = form.save(commit=False)        
+        material.task = self.task
+        material.user = self.task.assigned_to
+        material.save()
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse_lazy('Task:task-details', kwargs={'slug': self.task.slug})    
+    
+    
+class EditTaskMaterial(LoginRequiredMixin, UpdateView):
+    model = TaskMaterial
+    form_class = TaskMaterialEditForm
+    template_name = 'task/edit-materials.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.task = get_object_or_404(Task, slug=self.kwargs.get('slug'))
+        return super().dispatch(request, *args, **kwargs)
+   
+    def form_valid(self, form):
+
+        material = form.save(commit=False)        
+        # material.task = self.task
+        material.user = self.request.user
+        material.save()
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse_lazy('Task:task-details', kwargs={'slug': self.task.slug})
     
 
 @login_required

@@ -23,7 +23,7 @@ class HomeTemplateVIew(TemplateView):
 class TaskSearchView(ListView):
     model = Task
     template_name = 'pages/search.html'
-    # context_object_name = 'results'
+    context_object_name = 'results'
     # form_class = TaskSearchForm
 
     def get_queryset(self):

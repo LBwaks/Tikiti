@@ -24,7 +24,7 @@ class HomeTemplateVIew(LoginRequiredMixin, TemplateView):
 class TaskSearchView(LoginRequiredMixin, ListView):
     model = Task
     template_name = 'pages/search.html'
-    # context_object_name = 'results'
+    context_object_name = 'results'
     # form_class = TaskSearchForm
 
     def get_queryset(self):
@@ -35,25 +35,25 @@ class TaskSearchView(LoginRequiredMixin, ListView):
         if self.form.is_valid():
             title = self.form.cleaned_data.get('title')
             # priority = self.form.cleaned_data.get("priority")
-            priority = self.request.GET.get('priority',None)
+            priority = self.request.GET.get('priority', None)
             # status = self.form.cleaned_data.get("status")
-            status = self.request.GET.get("status",None)
+            status = self.request.GET.get("status", None)
 
             if title:
                 queryset = queryset.filter(title__icontains=title)
 
-            if priority: # and priority != '0' and priority != '999999':
+            if priority not in [None, "", "0", '999']:  # and priority != '0' and priority != '999999':
                 try:                    
-                    priority = get_object_or_404(Priority, pk=priority)
-                    queryset = queryset.filter(Q(priority__priority_type__icontains=priority.priority_type))
-                except ValueError:
+                    priority = Priority.objects.get(pk=int(priority))
+                    queryset = queryset.filter(Q(priority__priority_type__icontains= priority.priority_type))
+                except (ValueError, Priority.DoesNotExists):
                     pass
 
-            if status:
+            if status not in [None, "", "0", '999']:
                 try:
-                    status = get_object_or_404(Status, pk=status)
-                    queryset = queryset.filter(Q(status__status__icontains=status.status))
-                except ValueError:
+                    status = Status.objects.get(pk=int(status))
+                    queryset = queryset.filter(Q(status__status__icontains= status.status))
+                except (ValueError, Status.DoesNotExists):
                     pass
         
         return queryset
@@ -61,13 +61,15 @@ class TaskSearchView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         status_id = self.request.GET.get('status', None)
-        if status_id == '0':
-            context['status'] = 'All Statuses'
-        else:
-            status = get_object_or_404(Status, pk=status_id)
-            context['status'] = status.status
+        # if status_id == '0':
+        #     context['status'] = 'All Statuses'
+        # else:
+        #     status = get_object_or_404(Status, pk=status_id)
+        #     context['status'] = status.status
 
         context["search_form"] = self.form
+        context['statuses'] = Status.objects.all()
+        context['priorities'] = Priority.objects.all()
         return context
     
     

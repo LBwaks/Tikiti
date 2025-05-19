@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import Test, TaskListView, TaskDetailView, CreateTaskView, MyTaskView, DeleteTaskView,TaskAssigneeView, TaskIssueView,TaskPriorityView, UpdateTaskView, TaskStatusView,UpdateTaskStatusView, UpdateTaskAssigneeView,TaskSectorView
+from .views import Test, TaskListView, TaskDetailView, CreateTaskView, EditTaskMaterial,MyTaskView, DeleteTaskView,TaskAssigneeView,AddTaskMaterial, TaskIssueView,TaskPriorityView, UpdateTaskView, TaskStatusView,UpdateTaskStatusView, UpdateTaskAssigneeView,TaskSectorView
 
 app_name = 'Task'
 
@@ -16,7 +16,9 @@ urlpatterns = [
     path('priority/<slug>', TaskPriorityView.as_view(), name='task-priority'),
     path('issue/<slug>', TaskIssueView.as_view(), name='task-issue'),
     path('assignee/<pk>', TaskAssigneeView.as_view(), name='task-assignee'),
-    path('my-task/<username>', MyTaskView.as_view(), name='my-task')
+    path('my-task/<username>', MyTaskView.as_view(), name='my-task'),
+    path('add-materials<slug>/', AddTaskMaterial.as_view(), name='add-materials'),
+    path('edit-material<slug>', EditTaskMaterial.as_view(), name='edit-materials')
     
 ]
 
