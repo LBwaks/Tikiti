@@ -5,6 +5,9 @@ import ssl
 from pathlib import Path
 
 import environ
+import django.db.models.signals
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 # tikiti/
@@ -330,3 +333,24 @@ SOCIALACCOUNT_FORMS = {"signup": "tikiti.users.forms.UserSocialSignupForm"}
 CKEDITOR_BASEPATH = "/static/ckeditor/"
 CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_UPLOAD_PATH = "uploads/"
+
+# sentry
+sentry_sdk.init(
+    dsn="https://3b3f335a0a43f3067234351c5ee3bebb@o4504099387342848.ingest.us.sentry.io/4509351700463616",
+    # Add data like request headers and IP for users,
+    # see https://docs.sentry.io/platforms/python/data-management/data-collected/ for more info
+    integrations=[
+        DjangoIntegration(
+            transaction_style='url',
+            middleware_spans=True,
+            signals_spans=True,
+            signals_denylist=[
+                django.db.models.signals.pre_init,
+                django.db.models.signals.post_init,
+            ],
+            cache_spans=False,
+            http_methods_to_capture=("GET",),
+        ),
+    ],
+    send_default_pii=True,
+)

@@ -4,7 +4,7 @@
 import ssl
 from pathlib import Path
 
-import environ
+import environ, os
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 # tikiti/
@@ -239,6 +239,7 @@ EMAIL_TIMEOUT = 5
 ADMIN_URL = "admin/"
 # https://docs.djangoproject.com/en/dev/ref/settings/#admins
 ADMINS = [("""Lucas Obwaku""", "victorobwaku@gmail.com")]
+SERVER_EMAIL = 'victorobwaku@gmail.com'
 # https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
 # https://cookiecutter-django.readthedocs.io/en/latest/settings.html#other-environment-settings
@@ -256,6 +257,11 @@ LOGGING = {
     "formatters": {
         "verbose": {
             "format": "%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s",
+            "style": '{',
+        },
+        "simple": {
+            "format": '[{levelname}] {message}',
+            "style": '{',
         },
     },
     "handlers": {
@@ -263,6 +269,29 @@ LOGGING = {
             "level": "DEBUG",
             "class": "logging.StreamHandler",
             "formatter": "verbose",
+        },
+        "error_file": {
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/errors.log'),
+            'formatter': 'verbose',
+            'level': 'ERROR',
+        },
+        'mail_admins': {
+            'class': 'django.utils.log.AdminEmailHandler',
+            'level': 'ERROR',
+            'formatter': 'verbose',
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'Task': { 
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': True,
         },
     },
     "root": {"level": "INFO", "handlers": ["console"]},
