@@ -91,7 +91,7 @@ RUN chown -R django:django ${APP_HOME}
 
 USER django
 
-RUN apt-get update && apt-get install -y gettext
+RUN apt-get update && apt-get install -y gettext \
 
 RUN DATABASE_URL="" \
   DJANGO_SETTINGS_MODULE="config.settings.test" \
