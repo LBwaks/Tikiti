@@ -5,3 +5,4 @@ POSTGRES_PORT=5432
 POSTGRES_DB=tikiti
 POSTGRES_USER=tikiti
 POSTGRES_PASSWORD=postgres
+DATABASE_URL=postgresql://postgres:qXOSeNSIOotjipjFkbmwacggtHdumaVK@postgres.railway.internal:5432/railway
