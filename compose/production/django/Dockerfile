@@ -91,12 +91,12 @@ RUN chown -R django:django ${APP_HOME}
 
 USER django
 # Install gettext for compilemessages to work
-RUN apt-get update && apt-get install -y gettext \
+# RUN apt-get update && apt-get install -y gettext \
 
-RUN DATABASE_URL="" \
-  DJANGO_SETTINGS_MODULE="config.settings.test" \
-  python manage.py compilemessages
+# RUN DATABASE_URL="" \
+#   DJANGO_SETTINGS_MODULE="config.settings.test" \
+#   python manage.py compilemessages
 
-# Compile translations, skip error if none exist
-RUN python manage.py compilemessages || echo "No messages to compile"
+# # Compile translations, skip error if none exist
+# RUN python manage.py compilemessages || echo "No messages to compile"
 ENTRYPOINT ["/entrypoint"]
